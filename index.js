@@ -18,10 +18,13 @@ const pc = {
     }
 };
 
-const play_video = async (page, video_id) => {
+const play_video = async (browser, video_id) => {
     const url = `https://www.youtube.com/watch?v=${video_id}`;
 
+    const page = await browser.newPage();
+    await page.emulate(pc);
     await page.goto(url, { waitUntil: 'networkidle2' });
+
     await sleep(3000);
 
     try {
@@ -32,6 +35,10 @@ const play_video = async (page, video_id) => {
         // open transcript
         await page.waitForSelector('#contentWrapper > .dropdown-content > #items > .style-scope:nth-child(2)')
         await page.click('#contentWrapper > .dropdown-content > #items > .style-scope:nth-child(2)')
+
+        // change language
+        await page.waitForSelector('#contentWrapper > #trigger')
+        await page.click('#contentWrapper > #trigger')
 
         // get transcript
         await page.waitForSelector('.ytd-transcript-body-renderer')
@@ -46,9 +53,8 @@ const play_video = async (page, video_id) => {
 
 const main = async () => {
     const browser = await puppeteer.launch({ headless: false, slowMo: 100, args: ['--lang=ja,en-US,en'] });
-    const page = await browser.newPage()
-    await page.emulate(pc);
-    await video.ids.map(id => play_video(page, id));
+    await video.ids.map(id => play_video(browser, id));
+    await browser.close();
 }
 
 main();
