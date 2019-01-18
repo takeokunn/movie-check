@@ -54,7 +54,6 @@ const play_video = async (browser, video_id) => {
 const main = async () => {
     const browser = await puppeteer.launch({ headless: false, slowMo: 100, args: ['--lang=ja,en-US,en'] });
     await video.ids.map(id => play_video(browser, id));
-    await browser.close();
 }
 
 main();
