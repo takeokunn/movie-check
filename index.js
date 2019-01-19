@@ -36,10 +36,6 @@ const play_video = async (browser, video_id) => {
         await page.waitForSelector('#contentWrapper > .dropdown-content > #items > .style-scope:nth-child(2)')
         await page.click('#contentWrapper > .dropdown-content > #items > .style-scope:nth-child(2)')
 
-        // change language
-        await page.waitForSelector('#contentWrapper > #trigger')
-        await page.click('#contentWrapper > #trigger')
-
         // get transcript
         await page.waitForSelector('.ytd-transcript-body-renderer')
 
@@ -53,8 +49,7 @@ const play_video = async (browser, video_id) => {
 
 const main = async () => {
     const browser = await puppeteer.launch({ headless: false, slowMo: 100, args: ['--lang=ja,en-US,en'] });
-    await video.ids.map(async id => play_video(browser, id));
-    await browser.close();
+    await video.ids.map(id => play_video(browser, id));
 }
 
 main();
