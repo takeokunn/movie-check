@@ -12,5 +12,5 @@
     "start": "node index.js"
   },
   "author": "MozyOk",
-  "license": "MozyOk"
+  "license": "MIT"
 }
